@@ -233,14 +233,14 @@ def filter_output_dict(output_dict):
 
 class Network:
     def __init__(self, ckpt):
-        od_graph_def = tf.GraphDef()
-        with tf.gfile.GFile(ckpt, 'rb') as fid:
+        od_graph_def = tf.compat.v1.GraphDef()
+        with tf.io.gfile.GFile(ckpt, 'rb') as fid:
             serialized_graph = fid.read()
             od_graph_def.ParseFromString(serialized_graph)
             tf.import_graph_def(od_graph_def, name='')
-        config = tf.ConfigProto()
+        config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
-        self.sess = tf.Session(config=config)
+        self.sess = tf.compat.v1.Session(config=config)
 
     def __del__(self):
         self.release()
@@ -264,10 +264,11 @@ class Network:
             'detection_scores', 'detection_classes'
         ]:
             tensor_name = key + ':0'
-            tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(
+            tensor_dict[key] = \
+                tf.compat.v1.get_default_graph().get_tensor_by_name(
                 tensor_name
             )
-        image_tensor = tf.get_default_graph().get_tensor_by_name(
+        image_tensor = tf.compat.v1.get_default_graph().get_tensor_by_name(
             'image_tensor:0'
         )
         output_dict = self.sess.run(tensor_dict,

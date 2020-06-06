@@ -24,8 +24,8 @@ def load_graph(frozen_graph_filename):
         tf.Graph: Graph imported from given file.
 
     """
-    with tf.gfile.GFile(frozen_graph_filename, 'rb') as f:
-        graph_def = tf.GraphDef()
+    with tf.io.gfile.GFile(frozen_graph_filename, 'rb') as f:
+        graph_def = tf.compat.v1.GraphDef()
         graph_def.ParseFromString(f.read())
     with tf.Graph().as_default() as graph:
         tf.import_graph_def(graph_def, name='import')
@@ -142,24 +142,24 @@ def main():
     with graph.as_default():
         network = Network(args.ckpt)
 
-    session_config = tf.ConfigProto()
+    session_config = tf.compat.v1.ConfigProto()
     session_config.gpu_options.allow_growth = True
 
     with open(os.path.join(args.data, 'classes.json')) as f:
         classes = json.load(f)
 
     graph_224 = load_graph(os.path.join(args.data, 'inception_v1_224.pb'))
-    sess_224 = tf.Session(graph=graph_224, config=session_config)
+    sess_224 = tf.compat.v1.Session(graph=graph_224, config=session_config)
     x_224 = graph_224.get_tensor_by_name('import/input:0')
     y_224 = graph_224.get_tensor_by_name('import/ArgMax:0')
 
     graph_64 = load_graph(os.path.join(args.data, 'inception_v1_64.pb'))
-    sess_64 = tf.Session(graph=graph_64, config=session_config)
+    sess_64 = tf.compat.v1.Session(graph=graph_64, config=session_config)
     x_64 = graph_64.get_tensor_by_name('import/input:0')
     y_64 = graph_64.get_tensor_by_name('import/ArgMax:0')
 
     graph_32 = load_graph(os.path.join(args.data, 'densenet_32.pb'))
-    sess_32 = tf.Session(graph=graph_32, config=session_config)
+    sess_32 = tf.compat.v1.Session(graph=graph_32, config=session_config)
     x_32 = graph_32.get_tensor_by_name('import/input:0')
     y_32 = graph_32.get_tensor_by_name('import/ArgMax:0')
 
