@@ -1,1 +1,21 @@
-["cargo", "military_ship", "carrier", "cruise", "drone", "fighter-jet", "helicopter", "missile", "passenger-plane", "tanker", "articulated_truck", "bicycle", "bus", "car", "motorcycle", "non-motorized_vehicle", "pickup_truck", "single_unit_truck", "work_van"]
+[
+    "cargo",
+    "military_ship",
+    "carrier",
+    "cruise",
+    "drone",
+    "fighter-jet",
+    "helicopter",
+    "missile",
+    "passenger-plane",
+    "tanker",
+    "articulated_truck",
+    "bicycle",
+    "bus",
+    "car",
+    "motorcycle",
+    "non-motorized_vehicle",
+    "pickup_truck",
+    "single_unit_truck",
+    "work_van"
+]
