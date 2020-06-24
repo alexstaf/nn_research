@@ -184,16 +184,18 @@ def print_info_on_frame(frame, bboxes, classes, scores):
                     cv2.COLOR_HSV2BGR
                 )
                 color = tuple([int(x) for x in color[0, 0]])
-                frame[ymin:ymax, xmin] = color
-                frame[ymin:ymax, xmax] = color
-                frame[ymin, xmin:xmax] = color
-                frame[ymax, xmin:xmax] = color
+                frame[ymin:ymax, xmin:xmin + 2] = color
+                frame[ymin:ymax, xmax - 2:xmax] = color
+                frame[ymin:ymin + 2, xmin:xmax] = color
+                frame[ymax - 2:ymax, xmin:xmax] = color
                 if isinstance(classes[i], str):
                     text = classes[i]
                 else:
                     text = CLASSES[classes[i]]
                 text = '{}: {}%'.format(text, int(scores[i] * 100))
-                cv2.putText(frame, text, (xmin, ymin + 25), FONT, 1, color)
+                cv2.putText(
+                    frame, text, (xmin + 1, ymin + 25), FONT, 1, color, 2
+                )
 
 
 def filter_output_dict(output_dict):
